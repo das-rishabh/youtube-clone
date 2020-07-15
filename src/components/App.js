@@ -4,8 +4,9 @@ import youtube from "./apis/youtube";
 
 const KEY = "AIzaSyDcpUks4W-MtemF3B23-_Jrs8yjfIvy0Tw";
 class App extends React.Component {
-  onTermSubmit = (term) => {
-    youtube.get("/search", {
+  state = { videos: [] };
+  onTermSubmit = async (term) => {
+    const response = await youtube.get("/search", {
       params: {
         q: term,
         part: "snippet",
@@ -13,12 +14,14 @@ class App extends React.Component {
         key: KEY,
       },
     });
+    this.setState({ videos: response.data.items });
   };
 
   render() {
     return (
       <div className="ui container">
-        <SearchBar onFormSubmit={this.onTermSubmit} />
+        <SearchBar onFormSubmit={this.onTermSubmit} />I have{" "}
+        {this.state.videos.length} videos
       </div>
     );
   }

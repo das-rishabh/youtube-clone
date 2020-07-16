@@ -7,6 +7,9 @@ import VideoDetail from "./VideoDetail";
 const KEY = "AIzaSyDcpUks4W-MtemF3B23-_Jrs8yjfIvy0Tw";
 class App extends React.Component {
   state = { videos: [], selectedVideo: null };
+  componentDidMount() {
+    this.onTermSubmit("CHRIS BROWN");
+  }
   onTermSubmit = async (term) => {
     const response = await youtube.get("/search", {
       params: {
@@ -16,7 +19,10 @@ class App extends React.Component {
         key: KEY,
       },
     });
-    this.setState({ videos: response.data.items });
+    this.setState({
+      videos: response.data.items,
+      selectedVideo: response.data.items[0],
+    });
   };
 
   onVideoSelect = (video) => {
